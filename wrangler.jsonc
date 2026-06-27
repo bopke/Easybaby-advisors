@@ -1,0 +1,46 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "specjalisci-easybaby",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-06-26",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  // Production custom domain. Requires the easybaby.pl zone on this Cloudflare
+  // account; `wrangler deploy` provisions the DNS record + certificate.
+  "routes": [
+    { "pattern": "specjalisci.easybaby.pl", "custom_domain": true }
+  ],
+  /**
+   * D1 database binding. Access in server code via getCloudflareContext().env.DB.
+   * Run `npx wrangler d1 create specjalisci-easybaby-db` and paste the returned
+   * database_id below before deploying. Local dev works without a real id.
+   */
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "specjalisci-easybaby-db",
+      "database_id": "4964bfb8-0261-43a1-bbc0-f77ab4bb117e",
+      "migrations_dir": "migrations"
+    }
+  ],
+  /**
+   * R2 bucket for advisor photos. Access via getCloudflareContext().env.PHOTOS.
+   * Run `npx wrangler r2 bucket create specjalisci-easybaby-photos` before deploying.
+   * Local dev uses a simulated bucket under .wrangler/state — no remote bucket needed.
+   */
+  "r2_buckets": [
+    {
+      "binding": "PHOTOS",
+      "bucket_name": "specjalisci-easybaby-photos"
+    }
+  ]
+}
