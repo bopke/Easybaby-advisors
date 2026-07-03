@@ -92,14 +92,16 @@ export async function listPublicAdvisors(p: PublicPageParams): Promise<PublicPag
   const totalRow = await DB.prepare(`SELECT COUNT(*) AS n FROM advisors a WHERE ${whereSql}`).bind(...whereBinds).first<{ n: number }>();
   const total = totalRow?.n ?? 0;
 
+  // Zweryfikowani specjaliści zawsze na górze, niezależnie od wybranego sortowania.
+  const VERIFIED_FIRST = "a.zweryfikowany DESC, ";
   let selectExtra = "";
-  let order = "a.nazwisko COLLATE NOCASE, a.imie COLLATE NOCASE, a.id";
+  let order = VERIFIED_FIRST + "a.nazwisko COLLATE NOCASE, a.imie COLLATE NOCASE, a.id";
   const headBinds: unknown[] = [];
   if (p.sort === "status") {
-    order = "a.status COLLATE NOCASE, a.nazwisko COLLATE NOCASE, a.id";
+    order = VERIFIED_FIRST + "a.status COLLATE NOCASE, a.nazwisko COLLATE NOCASE, a.id";
   } else if (p.sort === "miasto") {
     selectExtra = ", (SELECT json_extract(rp.value, '$.miasta[0]') FROM json_each(a.regiony) rp WHERE json_extract(rp.value, '$.woj') = ? LIMIT 1) AS primary_city";
-    order = "primary_city COLLATE NOCASE, a.nazwisko COLLATE NOCASE, a.id";
+    order = VERIFIED_FIRST + "primary_city COLLATE NOCASE, a.nazwisko COLLATE NOCASE, a.id";
     headBinds.push(p.woj); // bind for selectExtra (appears before WHERE binds)
   }
 
@@ -119,7 +121,7 @@ export async function getAdvisorById(id: string): Promise<Advisor | null> {
 export async function adminListAdvisors(): Promise<Advisor[]> {
   const DB = await db();
   const { results } = await DB.prepare(
-    "SELECT * FROM advisors ORDER BY nazwisko COLLATE NOCASE, imie COLLATE NOCASE, id"
+    "SELECT * FROM advisors ORDER BY zweryfikowany DESC, nazwisko COLLATE NOCASE, imie COLLATE NOCASE, id"
   ).all<Row>();
   return (results ?? []).map(rowToAdvisor);
 }
