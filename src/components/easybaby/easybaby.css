@@ -36,21 +36,24 @@
 .ebsite-header { border-bottom: 1px solid #eeeeee; }
 .ebsite-footer { border-top: 1px solid #eeeeee; }
 .ebsite-header__inner,
-.ebsite-footer__inner { max-width: 1140px; margin: 0 auto; padding: 16px 15px; display: flex; align-items: center; gap: 16px; }
+.ebsite-footer__inner { max-width: 1140px; margin: 0 auto; padding: 12px 15px; display: flex; align-items: center; gap: 16px; }
+.ebsite-header__inner { min-height: 100px; }
 .ebsite-footer__inner { padding: 20px 15px; justify-content: space-between; flex-wrap: wrap; }
 
-.ebsite-brand { display: inline-flex; flex: 0 0 auto; }
-.ebsite-brand img { height: 60px; width: auto; display: block; }
+.ebsite-brand { display: inline-flex; flex: 0 0 auto; margin-right: 1rem; }
+.ebsite-brand img { height: 50px; width: auto; display: block; }
 .ebsite-footer .ebsite-brand img { height: 60px; }
 
 .ebsite-collapse { flex: 1 1 auto; display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
-.ebsite-nav { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 2px; }
-.ebsite-nav a { display: inline-block; padding: 8px 13px; color: #492b2b; text-decoration: none; font-size: 16px; font-weight: 500; white-space: nowrap; transition: color .15s; }
-.ebsite-nav a:hover { color: #a2aa7d; }
+.ebsite-nav { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 0; }
+.ebsite-nav a { display: inline-block; padding: 8px 0; margin: 0 8px; color: #492b2b; text-decoration: none; font-size: 16px; font-weight: 500; white-space: nowrap; transition: padding-bottom .2s ease-in-out; }
+.ebsite-nav a:hover { padding-bottom: 15px; }
 
-.ebsite-actions { display: flex; align-items: center; gap: 8px; margin-left: 8px; }
-.ebsite-btn { background: #a2aa7d; color: #fff; text-decoration: none; font-size: 15px; font-weight: 500; line-height: 1.4; padding: 9px 20px; border-radius: 6px; white-space: nowrap; transition: background .15s; }
-.ebsite-btn:hover { background: #8d966a; }
+.ebsite-actions { display: flex; align-items: center; gap: 16px; margin-left: 16px; }
+/* .eb-app a { color: inherit } (spec 0-1-1) would otherwise win over a bare
+   .ebsite-btn (0-1-0) and tint the button text brown — scope to beat it. */
+.eb-app .ebsite-btn { display: flex; align-items: center; justify-content: center; background: #a2aa7d; color: #fff; text-decoration: none; font-size: 16px; font-weight: 500; line-height: 1.5; padding: 6px 12px; border: 1px solid transparent; border-radius: 4px; white-space: nowrap; transition: filter .2s ease-in-out; }
+.eb-app .ebsite-btn:hover { filter: brightness(85%); }
 
 .ebsite-burger { display: none; margin-left: auto; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 40px; border: none; background: none; cursor: pointer; padding: 8px; }
 .ebsite-burger span { display: block; height: 3px; border-radius: 3px; background: #a2aa7d; }
