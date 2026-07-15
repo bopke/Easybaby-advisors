@@ -21,6 +21,22 @@ function wwwHref(w: string) {
   return /^https?:\/\//.test(w) ? w : "https://" + w;
 }
 
+// Normalizacja do dopasowań miast: małe litery, bez ogonków (ó→o, ł→l),
+// żeby dopasowanie działało niezależnie od polskich znaków.
+function normCity(s: string): string {
+  return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\u0142/g, "l");
+}
+
+// Gdy zapytanie pasuje do jednej z miejscowości specjalisty, przenieś ją na
+// początek — dzięki temu w skróconym widoku pokazujemy miasto, które użytkownik
+// wpisał (np. Pruszków), a nie główne z listy (np. Warszawę).
+function leadCity(cities: string[], q: string): string {
+  const nq = normCity(q.trim());
+  if (!nq) return cities[0] ?? "";
+  const hit = cities.find((c) => normCity(c).includes(nq));
+  return hit ?? cities[0] ?? "";
+}
+
 // ---- bloki szczegółów ----
 function CitiesChips({ cities }: { cities: string[] }) {
   return (
@@ -58,7 +74,7 @@ function OtherRegions({ a, woj }: { a: Advisor; woj: string }) {
 }
 
 // ---- Rozwijana karta (wariant: lista) ----
-function AdvisorRow({ a, woj, showAvatars }: { a: Advisor; woj: string; showAvatars: boolean }) {
+function AdvisorRow({ a, woj, q, showAvatars }: { a: Advisor; woj: string; q: string; showAvatars: boolean }) {
   const [open, setOpen] = useState(false);
   const cities = EBUtil.citiesIn(a, woj);
   const extra = cities.length - 1;
@@ -70,7 +86,7 @@ function AdvisorRow({ a, woj, showAvatars }: { a: Advisor; woj: string; showAvat
           <span className="eb-row__name">{a.imie} {a.nazwisko}{a.zweryfikowany && <GreenTick />}</span>
           <span className="eb-row__meta">
             <StatusBadge status={a.status} />
-            <span className="eb-row__city">{cities[0]}{extra > 0 ? " +" + extra : ""}</span>
+            <span className="eb-row__city">{leadCity(cities, q)}{extra > 0 ? " +" + extra : ""}</span>
           </span>
         </span>
         <span className="eb-row__chev" aria-hidden="true"><Chevron /></span>
@@ -103,7 +119,7 @@ function AdvisorRow({ a, woj, showAvatars }: { a: Advisor; woj: string; showAvat
 }
 
 // ---- Karta (wariant: siatka kart) ----
-function AdvisorCardGrid({ a, woj, showAvatars }: { a: Advisor; woj: string; showAvatars: boolean }) {
+function AdvisorCardGrid({ a, woj, q, showAvatars }: { a: Advisor; woj: string; q: string; showAvatars: boolean }) {
   const cities = EBUtil.citiesIn(a, woj);
   const extra = cities.length - 1;
   const others = EBUtil.regionsOther(a, woj).length;
@@ -116,7 +132,7 @@ function AdvisorCardGrid({ a, woj, showAvatars }: { a: Advisor; woj: string; sho
           <StatusBadge status={a.status} />
         </div>
       </div>
-      <div className="eb-card__city"><span aria-hidden="true">📍</span> {cities[0]}{extra > 0 ? " i " + extra + " więcej" : ""}{others > 0 ? " · +" + others + " woj." : ""}</div>
+      <div className="eb-card__city"><span aria-hidden="true">📍</span> {leadCity(cities, q)}{extra > 0 ? " i " + extra + " więcej" : ""}{others > 0 ? " · +" + others + " woj." : ""}</div>
       <div className="eb-card__spec">{a.specjalnosc}</div>
       <div className="eb-card__contact">
         <a href={"mailto:" + a.email} title={a.email} aria-label="E-mail"><IcoMail /></a>
@@ -128,7 +144,7 @@ function AdvisorCardGrid({ a, woj, showAvatars }: { a: Advisor; woj: string; sho
 }
 
 // ---- Wiersz tabeli ----
-function AdvisorTableRow({ a, woj, showAvatars }: { a: Advisor; woj: string; showAvatars: boolean }) {
+function AdvisorTableRow({ a, woj, q, showAvatars }: { a: Advisor; woj: string; q: string; showAvatars: boolean }) {
   const cities = EBUtil.citiesIn(a, woj);
   const extra = cities.length - 1;
   return (
@@ -141,7 +157,7 @@ function AdvisorTableRow({ a, woj, showAvatars }: { a: Advisor; woj: string; sho
         </span>
       </td>
       <td><StatusBadge status={a.status} /></td>
-      <td>{cities[0]}{extra > 0 ? " +" + extra : ""}</td>
+      <td>{leadCity(cities, q)}{extra > 0 ? " +" + extra : ""}</td>
       <td>{a.specjalnosc}</td>
       <td>
         <span className="eb-tcontact">
@@ -305,18 +321,18 @@ export function ListView({
         <>
           {layout === "karty" ? (
             <div className="eb-grid">
-              {items.map((a) => <AdvisorCardGrid key={a.id} a={a} woj={woj} showAvatars={showAvatars} />)}
+              {items.map((a) => <AdvisorCardGrid key={a.id} a={a} woj={woj} q={dq} showAvatars={showAvatars} />)}
             </div>
           ) : layout === "tabela" ? (
             <div className="eb-tablewrap">
               <table className="eb-table">
                 <thead><tr><th>Specjalista</th><th>Status</th><th>Miejscowość</th><th>Specjalność</th><th>Kontakt</th></tr></thead>
-                <tbody>{items.map((a) => <AdvisorTableRow key={a.id} a={a} woj={woj} showAvatars={showAvatars} />)}</tbody>
+                <tbody>{items.map((a) => <AdvisorTableRow key={a.id} a={a} woj={woj} q={dq} showAvatars={showAvatars} />)}</tbody>
               </table>
             </div>
           ) : (
             <div className="eb-list">
-              {items.map((a) => <AdvisorRow key={a.id} a={a} woj={woj} showAvatars={showAvatars} />)}
+              {items.map((a) => <AdvisorRow key={a.id} a={a} woj={woj} q={dq} showAvatars={showAvatars} />)}
             </div>
           )}
           <div ref={sentinelRef} aria-hidden="true" />
