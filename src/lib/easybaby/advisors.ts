@@ -12,7 +12,10 @@ export type Advisor = {
   id: string;
   imie: string;
   nazwisko: string;
+  // `statusy` to pełna lista statusów (specjalista może mieć kilka naraz).
+  // `status` to status główny (pierwszy z listy) — na razie pokazujemy tylko jego.
   status: string;
+  statusy: string[];
   zweryfikowany: boolean;
   zdjecie: string;
   regiony: Region[];

@@ -30,7 +30,7 @@ const TrashIcon = () => (
 
 // ====== Formularz doradcy (modal) ======
 const EMPTY: AdvisorDraft = {
-  imie: "", nazwisko: "", status: "doradca easybaby", zweryfikowany: false, zdjecie: "",
+  imie: "", nazwisko: "", status: "doradca easybaby", statusy: ["doradca easybaby"], zweryfikowany: false, zdjecie: "",
   regiony: [{ woj: "mazowieckie", miasta: [] }],
   email: "", telefon: "", www: "", specjalnosc: "", oferta: "",
   dataUprawnien: "", dataDolaczenia: "", dataWeryfikacji: "", dataUtraty: "",
@@ -95,7 +95,9 @@ function RegionEditor({
 
 function AdvisorForm({ initial, onSave, onClose }: { initial: Advisor | null; onSave: (data: AdvisorDraft, photo: File | null, removePhoto: boolean) => void; onClose: () => void }) {
   const [f, setF] = useState<AdvisorDraft>(initial
-    ? { ...EMPTY, ...initial, regiony: (initial.regiony && initial.regiony.length ? initial.regiony.map((r) => ({ woj: r.woj, miasta: (r.miasta || []).slice() })) : [{ woj: "mazowieckie", miasta: [] }]) }
+    ? { ...EMPTY, ...initial,
+        statusy: (initial.statusy && initial.statusy.length ? initial.statusy.slice() : (initial.status ? [initial.status] : EMPTY.statusy.slice())),
+        regiony: (initial.regiony && initial.regiony.length ? initial.regiony.map((r) => ({ woj: r.woj, miasta: (r.miasta || []).slice() })) : [{ woj: "mazowieckie", miasta: [] }]) }
     : EMPTY);
   const [err, setErr] = useState<Record<string, number>>({});
   const firstRef = useRef<HTMLInputElement>(null);
@@ -125,6 +127,15 @@ function AdvisorForm({ initial, onSave, onClose }: { initial: Advisor | null; on
   }
 
   function set<K extends keyof AdvisorDraft>(k: K, v: AdvisorDraft[K]) { setF((s) => ({ ...s, [k]: v })); }
+  // Zaznacza/odznacza status. Lista trzymana jest w kanonicznej kolejności STATUSES,
+  // więc pierwszy zaznaczony = status główny (na razie jedyny pokazywany na stronie).
+  function toggleStatus(name: string) {
+    setF((s) => {
+      const next = s.statusy.includes(name) ? s.statusy.filter((x) => x !== name) : [...s.statusy, name];
+      const statusy = STATUSES.filter((x) => next.includes(x));
+      return { ...s, statusy, status: statusy[0] ?? "" };
+    });
+  }
   function setRegionWoj(idx: number, woj: string) { setF((s) => ({ ...s, regiony: s.regiony.map((r, i) => (i === idx ? { ...r, woj } : r)) })); }
   function addCityTo(idx: number, raw: string) {
     const c = raw.trim();
@@ -155,6 +166,7 @@ function AdvisorForm({ initial, onSave, onClose }: { initial: Advisor | null; on
     const er: Record<string, number> = {};
     if (!f.imie.trim()) er.imie = 1;
     if (!f.nazwisko.trim()) er.nazwisko = 1;
+    if (!f.statusy.length) er.status = 1;
     if (!f.regiony.length || f.regiony.some((r) => !r.miasta.length)) er.regiony = 1;
     if (!f.email.trim()) er.email = 1;
     setErr(er);
@@ -181,18 +193,25 @@ function AdvisorForm({ initial, onSave, onClose }: { initial: Advisor | null; on
             </label>
           </div>
 
-          <div className="adm-grid2">
-            <label className="adm-f">
-              <span>Status</span>
-              <select value={f.status} onChange={(e) => set("status", e.target.value)}>
-                {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
-              </select>
-            </label>
-            <label className="adm-check">
-              <input type="checkbox" checked={f.zweryfikowany} onChange={(e) => set("zweryfikowany", e.target.checked)} />
-              <span>Zweryfikowany <small>(zielony znacznik na liście)</small></span>
-            </label>
+          <div className={"adm-f" + (err.status ? " is-err" : "")}>
+            <span>Statusy <small>(możesz zaznaczyć kilka; na stronie pokazujemy na razie pierwszy)</small></span>
+            <div className="adm-statuspick">
+              {STATUSES.map((s) => {
+                const on = f.statusy.includes(s);
+                return (
+                  <label key={s} className={"adm-statuspick__opt" + (on ? " is-on" : "")}>
+                    <input type="checkbox" checked={on} onChange={() => toggleStatus(s)} />
+                    <span>{s}</span>
+                    {on && f.statusy[0] === s && <small className="adm-statuspick__main">główny</small>}
+                  </label>
+                );
+              })}
+            </div>
           </div>
+          <label className="adm-check">
+            <input type="checkbox" checked={f.zweryfikowany} onChange={(e) => set("zweryfikowany", e.target.checked)} />
+            <span>Zweryfikowany <small>(zielony znacznik na liście)</small></span>
+          </label>
 
           <div className="adm-f">
             <span>Zdjęcie <small>(opcjonalnie; JPG/PNG/WEBP/GIF, max 5 MB — puste = inicjały)</small></span>

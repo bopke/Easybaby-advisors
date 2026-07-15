@@ -10,10 +10,22 @@ export type PublicPageParams = { woj: string; q: string; status: string; sort: P
 export type PublicPage = { items: Advisor[]; total: number };
 
 const COLUMNS = [
-  "id", "imie", "nazwisko", "status", "zweryfikowany", "zdjecie", "regiony",
+  "id", "imie", "nazwisko", "status", "statusy", "zweryfikowany", "zdjecie", "regiony",
   "email", "telefon", "www", "specjalnosc", "oferta",
   "dataUprawnien", "dataDolaczenia", "dataWeryfikacji", "dataUtraty",
 ] as const;
+
+// Ujednolica statusy przy zapisie: usuwa puste/duplikaty, a `status` (główny,
+// wyświetlany) to zawsze pierwszy element listy. Gdy klient przyśle tylko stare
+// pole `status`, traktujemy je jak jednoelementową listę.
+function normStatuses(a: Advisor): { status: string; statusy: string[] } {
+  const raw = a.statusy && a.statusy.length ? a.statusy : (a.status ? [a.status] : []);
+  const seen = new Set<string>();
+  const statusy = raw
+    .map((s) => (s ?? "").trim())
+    .filter((s) => s && !seen.has(s) && (seen.add(s), true));
+  return { status: statusy[0] ?? "", statusy };
+}
 
 async function db(): Promise<D1Database> {
   const { env } = await getCloudflareContext({ async: true });
@@ -25,11 +37,16 @@ type Row = Record<string, unknown>;
 function rowToAdvisor(r: Row): Advisor {
   let regiony: Region[] = [];
   try { regiony = JSON.parse((r.regiony as string) || "[]"); } catch { regiony = []; }
+  const status = (r.status as string) ?? "";
+  let statusy: string[] = [];
+  try { statusy = JSON.parse((r.statusy as string) || "[]"); } catch { statusy = []; }
+  if (!Array.isArray(statusy) || !statusy.length) statusy = status ? [status] : [];
   return {
     id: String(r.id),
     imie: (r.imie as string) ?? "",
     nazwisko: (r.nazwisko as string) ?? "",
-    status: (r.status as string) ?? "",
+    status,
+    statusy,
     zweryfikowany: !!r.zweryfikowany,
     zdjecie: (r.zdjecie as string) ?? "",
     regiony,
@@ -47,8 +64,9 @@ function rowToAdvisor(r: Row): Advisor {
 
 function insertStmt(DB: D1Database, a: Advisor) {
   const placeholders = COLUMNS.map(() => "?").join(", ");
+  const { status, statusy } = normStatuses(a);
   return DB.prepare(`INSERT OR IGNORE INTO advisors (${COLUMNS.join(", ")}) VALUES (${placeholders})`).bind(
-    a.id, a.imie, a.nazwisko, a.status, a.zweryfikowany ? 1 : 0, a.zdjecie, JSON.stringify(a.regiony),
+    a.id, a.imie, a.nazwisko, status, JSON.stringify(statusy), a.zweryfikowany ? 1 : 0, a.zdjecie, JSON.stringify(a.regiony),
     a.email, a.telefon, a.www, a.specjalnosc, a.oferta,
     a.dataUprawnien, a.dataDolaczenia, a.dataWeryfikacji, a.dataUtraty,
   );
@@ -135,14 +153,15 @@ export async function createAdvisor(draft: Omit<Advisor, "id">): Promise<Advisor
 
 export async function updateAdvisor(a: Advisor): Promise<void> {
   const DB = await db();
+  const { status, statusy } = normStatuses(a);
   await DB.prepare(
     `UPDATE advisors SET
-       imie = ?, nazwisko = ?, status = ?, zweryfikowany = ?, zdjecie = ?, regiony = ?,
+       imie = ?, nazwisko = ?, status = ?, statusy = ?, zweryfikowany = ?, zdjecie = ?, regiony = ?,
        email = ?, telefon = ?, www = ?, specjalnosc = ?, oferta = ?,
        dataUprawnien = ?, dataDolaczenia = ?, dataWeryfikacji = ?, dataUtraty = ?
      WHERE id = ?`
   ).bind(
-    a.imie, a.nazwisko, a.status, a.zweryfikowany ? 1 : 0, a.zdjecie, JSON.stringify(a.regiony),
+    a.imie, a.nazwisko, status, JSON.stringify(statusy), a.zweryfikowany ? 1 : 0, a.zdjecie, JSON.stringify(a.regiony),
     a.email, a.telefon, a.www, a.specjalnosc, a.oferta,
     a.dataUprawnien, a.dataDolaczenia, a.dataWeryfikacji, a.dataUtraty,
     a.id,
