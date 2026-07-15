@@ -1,4 +1,4 @@
-# Specjaliści EasyBaby
+# Easybaby advisors
 
 Public directory of **EasyBaby babywearing specialists** ("specjaliści przyjaźni chustonoszeniu"), plus a private admin
 panel to manage them. Visitors browse an interactive map of Poland, drill into a voivodeship, and search/filter the
