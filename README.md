@@ -157,3 +157,8 @@ Advisor photos are uploaded through a Server Action to R2 (max 5 MB; JPG/PNG/WEB
 advisor's `zdjecie` field and served publicly, cached immutably, via `GET /api/photo/<key>`. Because uploads flow
 through a Server Action, `next.config.ts` raises the body-size limit to 6 MB.
 
+---
+
+## License
+
+Licensed under the **Apache License 2.0** — see [`LICENSE`](./LICENSE) and [`NOTICE`](./NOTICE).
