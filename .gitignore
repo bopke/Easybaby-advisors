@@ -41,6 +41,17 @@ yarn-error.log*
 # vercel
 .vercel
 
+# JetBrains IDE
+.idea/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local data dumps / migration artifacts — contain credentials or advisor PII,
+# must never be committed (regenerated locally by the import scripts)
+wp-config.php
+doradcy.json
+advisors_raw.json
+advisors_clean.json
+advisors_import.sql
