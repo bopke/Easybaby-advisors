@@ -86,7 +86,7 @@ export function HeroBand({ title, subtitle, children }: { title: string; subtitl
       <span className="eb-bubble eb-bubble--4" aria-hidden="true"></span>
       <div className="eb-hero__inner">
         <h1 className="eb-hero__title">{title}</h1>
-        {subtitle && <p className="eb-hero__sub">{subtitle}</p>}
+        {subtitle && subtitle.split(/\n\s*\n/).map((p, i) => <p key={i} className="eb-hero__sub">{p}</p>)}
         {children}
       </div>
     </div>
