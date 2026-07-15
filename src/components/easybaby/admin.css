@@ -96,7 +96,7 @@
 .adm-toolbar .adm-btn--solid { margin-left: auto; }
 
 /* ---------- Table ---------- */
-.adm-tablewrap { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.adm-tablewrap { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .adm-table { width: 100%; border-collapse: collapse; font-size: 15px; }
 .adm-table th { text-align: left; font-family: "Quicksand", sans-serif; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--ink-soft); padding: 15px 18px; background: #faf8f1; border-bottom: 1.5px solid var(--line); }
 .adm-th-act, .adm-td-act { text-align: right; white-space: nowrap; }
@@ -237,4 +237,7 @@
   .adm-td-addr { display: none; }
   .adm-table th:nth-child(2) { display: none; }
   .adm-table td:nth-child(2) { display: none; }
+  /* Nie zgniataj kolumn na wąskim ekranie — pozwól przewijać tabelę w poziomie,
+     żeby kolumna „Akcje” była zawsze dostępna. */
+  .adm-table { min-width: 520px; }
 }
