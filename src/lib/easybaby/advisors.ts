@@ -4,7 +4,7 @@
 
 import { POLAND } from "./poland-map";
 
-export type StatusTone = "eb" | "clauwi" | "and" | "spec";
+export type StatusTone = "eb" | "clauwi" | "other" | "spec";
 
 export type Region = { woj: string; miasta: string[] };
 
@@ -32,7 +32,7 @@ export type WojMeta = { slug: string; name: string };
 
 export const STATUSES = [
   "doradca easybaby", "instruktor easybaby", "edukator easybaby",
-  "doradca clauwi", "doradca and", "przyjazny specjalista", "polecany specjalista",
+  "doradca clauwi", "doradca innej szkoły", "przyjazny specjalista", "polecany specjalista",
 ];
 
 export const STATUS_META: Record<string, { tone: StatusTone }> = {
@@ -40,7 +40,7 @@ export const STATUS_META: Record<string, { tone: StatusTone }> = {
   "instruktor easybaby": { tone: "eb" },
   "edukator easybaby": { tone: "eb" },
   "doradca clauwi": { tone: "clauwi" },
-  "doradca and": { tone: "and" },
+  "doradca innej szkoły": { tone: "other" },
   "przyjazny specjalista": { tone: "spec" },
   "polecany specjalista": { tone: "spec" },
 };

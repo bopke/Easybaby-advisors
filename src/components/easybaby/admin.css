@@ -187,7 +187,7 @@
 .adm-statusbadge { display: inline-flex; align-items: center; font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .2px; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
 .adm-statusbadge--eb { background: #e7ecdb; color: var(--green-d); }
 .adm-statusbadge--clauwi { background: #e2ecf4; color: var(--blue); }
-.adm-statusbadge--and { background: #f4e6dc; color: #a85e36; }
+.adm-statusbadge--other { background: #f4e6dc; color: #a85e36; }
 .adm-statusbadge--spec { background: #efeadb; color: #897b46; }
 .adm-name-cell { display: inline-flex; align-items: center; gap: 7px; }
 .adm-tick { color: var(--green); display: inline-flex; }

@@ -246,7 +246,7 @@
 .eb-status { display: inline-flex; align-items: center; font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 11.5px; letter-spacing: .2px; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
 .eb-status--eb { background: #e7ecdb; color: var(--green-d); }
 .eb-status--clauwi { background: #e2ecf4; color: var(--blue); }
-.eb-status--and { background: #f4e6dc; color: #a85e36; }
+.eb-status--other { background: #f4e6dc; color: #a85e36; }
 .eb-status--spec { background: #efeadb; color: #897b46; }
 /* chipsy miejscowości */
 .eb-chips { display: flex; flex-wrap: wrap; gap: 7px; }
