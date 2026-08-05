@@ -17,7 +17,7 @@
 
   background: var(--bg);
   color: var(--ink);
-  font-family: "Nunito", system-ui, sans-serif;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-size: 16px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -25,14 +25,14 @@
 }
 .eb-app * { box-sizing: border-box; }
 .eb-app a { color: inherit; }
-.eb-app h1, .eb-app h2, .eb-app h3 { font-family: "Quicksand", sans-serif; margin: 0; }
+.eb-app h1, .eb-app h2, .eb-app h3 { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; margin: 0; }
 
 /* ============================================================
    Chrome easybaby.pl (pasek górny + stopka) — wierna replika.
-   Białe tło, tekst #492b2b, przyciski #a2aa7d, font Work Sans.
+   Białe tło, tekst #492b2b, przyciski #a2aa7d, font Lucida Sans Unicode (jak na żywej stronie).
    ============================================================ */
 .ebsite-header,
-.ebsite-footer { background: #fff; font-family: "Work Sans", system-ui, sans-serif; color: #492b2b; }
+.ebsite-footer { background: #fff; font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; color: #492b2b; }
 .ebsite-header { border-bottom: 1px solid #eeeeee; }
 .ebsite-footer { border-top: 1px solid #eeeeee; }
 .ebsite-header__inner,
@@ -87,7 +87,7 @@
 .eb-logo img { height: 58px; width: 58px; border-radius: 50%; display: block; }
 .eb-nav { display: flex; align-items: center; justify-content: center; gap: 22px; flex: 1 1 auto; flex-wrap: nowrap; }
 .eb-nav__link {
-  font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 17px;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 700; font-size: 17px;
   color: var(--ink); text-decoration: none; padding: 4px 0; position: relative;
   transition: color .15s; white-space: nowrap;
 }
@@ -100,7 +100,7 @@
 .eb-header__actions { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
 
 .eb-btn {
-  font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 15px;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 700; font-size: 15px;
   border-radius: 12px; padding: 11px 18px; cursor: pointer; text-decoration: none;
   display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid transparent;
   transition: all .15s; white-space: nowrap;
@@ -137,7 +137,7 @@
 .eb-close span:nth-child(2) { transform: translate(-50%, -50%) rotate(-45deg); }
 .eb-close:hover { background: var(--cream); }
 .eb-mobilemenu__nav { flex: 1 1 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; padding: 20px 24px 60px; }
-.eb-mobilemenu__link { font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 24px; color: var(--ink); text-decoration: none; }
+.eb-mobilemenu__link { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 700; font-size: 24px; color: var(--ink); text-decoration: none; }
 .eb-mobilemenu__link.is-active { color: var(--green-d); }
 .eb-mobilemenu__link:hover { color: var(--green-d); }
 .eb-mobilemenu__actions { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 12px; }
@@ -148,7 +148,7 @@
   display: flex; gap: 10px;
 }
 .eb-tab {
-  font-family: "Quicksand", sans-serif; font-weight: 600; font-size: 15px;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; font-size: 15px;
   border: 1.5px solid var(--line); background: #fff; color: var(--ink-soft);
   border-radius: 999px; padding: 9px 20px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
   transition: all .15s; white-space: nowrap;
@@ -179,6 +179,22 @@
 .eb-bubble--3 { width: 200px; height: 200px; right: -60px; bottom: -90px; opacity: .7; }
 .eb-bubble--4 { width: 50px; height: 50px; right: 130px; bottom: 30px; opacity: .7; }
 
+/* ---------- Hero accordion (click-to-expand Q&A) ---------- */
+.eb-hero__accordions { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; max-width: 560px; }
+.eb-accordion { border: 1.5px solid var(--line); border-radius: 14px; background: #fcfbf6; overflow: hidden; }
+.eb-accordion.is-open { border-color: var(--green-l); background: #fff; }
+.eb-accordion__trigger {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 13px 16px; border: none; background: none; cursor: pointer; text-align: left;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; font-size: 15px; color: var(--green-d);
+}
+.eb-accordion__chevron {
+  flex: 0 0 auto; width: 9px; height: 9px; border-right: 2px solid var(--green-d); border-bottom: 2px solid var(--green-d);
+  transform: rotate(45deg); transition: transform .2s ease;
+}
+.eb-accordion.is-open .eb-accordion__chevron { transform: rotate(-135deg); }
+.eb-accordion__panel { margin: 0; padding: 0 16px 15px; color: var(--ink-soft); font-size: 15px; line-height: 1.5; }
+
 /* ---------- Panel ---------- */
 .eb-panel { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px; }
 
@@ -188,29 +204,29 @@
 .eb-search__ico { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--green); font-size: 18px; }
 .eb-search__input {
   width: 100%; padding: 13px 40px 13px 42px; border-radius: 14px; border: 1.5px solid var(--line);
-  font-family: "Nunito", sans-serif; font-size: 15px; background: #fcfbf6; color: var(--ink); outline: none; transition: border-color .15s;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-size: 15px; background: #fcfbf6; color: var(--ink); outline: none; transition: border-color .15s;
 }
 .eb-search__input:focus { border-color: var(--green-l); background: #fff; }
 .eb-search__clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); border: none; background: var(--line); color: var(--ink-soft); width: 22px; height: 22px; border-radius: 50%; cursor: pointer; font-size: 15px; line-height: 1; }
 .eb-field { display: flex; flex-direction: column; gap: 5px; }
-.eb-field label { font-family: "Quicksand", sans-serif; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--ink-soft); }
+.eb-field label { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--ink-soft); }
 .eb-field select {
   appearance: none; padding: 12px 38px 12px 14px; border-radius: 14px; border: 1.5px solid var(--line);
-  font-family: "Nunito", sans-serif; font-size: 15px; background: #fcfbf6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2379766a' d='M6 8.5L1.5 4h9z'/%3E%3C/svg%3E") no-repeat right 14px center;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-size: 15px; background: #fcfbf6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2379766a' d='M6 8.5L1.5 4h9z'/%3E%3C/svg%3E") no-repeat right 14px center;
   color: var(--ink); cursor: pointer; outline: none; min-width: 180px;
 }
 .eb-field select:focus { border-color: var(--green-l); }
-.eb-toolbar__count { margin-left: auto; font-family: "Quicksand", sans-serif; font-weight: 600; color: var(--green-d); background: var(--cream); padding: 9px 16px; border-radius: 999px; font-size: 14px; align-self: flex-end; }
+.eb-toolbar__count { margin-left: auto; font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; color: var(--green-d); background: var(--cream); padding: 9px 16px; border-radius: 999px; font-size: 14px; align-self: flex-end; }
 
 /* ---------- Avatar + badge ---------- */
 .eb-avatar {
   flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; background: var(--green); color: var(--cream);
-  display: inline-flex; align-items: center; justify-content: center; font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 16px; text-transform: uppercase;
+  display: inline-flex; align-items: center; justify-content: center; font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 700; font-size: 16px; text-transform: uppercase;
 }
 .eb-avatar--photo { object-fit: cover; background: var(--cream); }
 .eb-wbadge {
   display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px 5px 10px; border-radius: 999px;
-  background: var(--cream); color: var(--green-d); font-family: "Quicksand", sans-serif; font-weight: 600; font-size: 13px; white-space: nowrap;
+  background: var(--cream); color: var(--green-d); font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; font-size: 13px; white-space: nowrap;
 }
 .eb-wbadge.is-link { cursor: pointer; }
 .eb-wbadge.is-link:hover { background: var(--cream-d); }
@@ -223,7 +239,7 @@
 .eb-row.is-open { border-color: var(--green-l); box-shadow: var(--shadow-sm); }
 .eb-row__head { width: 100%; display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: none; border: none; cursor: pointer; text-align: left; font-family: inherit; }
 .eb-row__main { flex: 1 1 auto; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.eb-row__name { font-family: "Quicksand", sans-serif; font-weight: 600; font-size: 17px; color: var(--ink); display: inline-flex; align-items: center; gap: 7px; }
+.eb-row__name { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; font-size: 17px; color: var(--ink); display: inline-flex; align-items: center; gap: 7px; }
 .eb-row__meta { font-size: 14px; color: var(--ink-soft); display: flex; align-items: center; gap: 9px; margin-top: 3px; flex-wrap: wrap; }
 .eb-row__city { color: var(--ink-soft); }
 .eb-row__chev { flex: 0 0 auto; width: 28px; height: 28px; border-radius: 50%; background: var(--cream); color: var(--green-d); display: inline-flex; align-items: center; justify-content: center; transition: transform .25s ease, background .15s; }
@@ -235,7 +251,7 @@
 .eb-row.is-open .eb-row__panelInner { border-top: 1px dashed var(--line); margin: 2px 18px 0; padding: 16px 0 18px; }
 .eb-detail { display: flex; flex-direction: column; gap: 6px; }
 .eb-detail--wide { flex-basis: 100%; }
-.eb-detail__label { font-family: "Quicksand", sans-serif; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--green); }
+.eb-detail__label { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--green); }
 .eb-detail__val { font-size: 15px; color: var(--ink); }
 .eb-link { color: var(--blue); text-decoration: none; font-weight: 600; }
 .eb-link:hover { text-decoration: underline; }
@@ -243,7 +259,7 @@
 /* ptaszek weryfikacji */
 .eb-tick { color: var(--green); display: inline-flex; flex: 0 0 auto; }
 /* badge statusu */
-.eb-status { display: inline-flex; align-items: center; font-family: "Quicksand", sans-serif; font-weight: 700; font-size: 11.5px; letter-spacing: .2px; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+.eb-status { display: inline-flex; align-items: center; font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 700; font-size: 11.5px; letter-spacing: .2px; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
 .eb-status--eb { background: #e7ecdb; color: var(--green-d); }
 .eb-status--clauwi { background: #e2ecf4; color: var(--blue); }
 .eb-status--other { background: #f4e6dc; color: #a85e36; }
@@ -265,7 +281,7 @@
 .eb-card:hover { border-color: color-mix(in srgb, var(--green) 35%, #fff); box-shadow: var(--shadow-sm); }
 .eb-card__top { display: flex; align-items: center; gap: 12px; }
 .eb-card__id { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.eb-card__name { font-family: "Quicksand", sans-serif; font-weight: 600; font-size: 17px; display: inline-flex; align-items: center; gap: 6px; }
+.eb-card__name { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; font-size: 17px; display: inline-flex; align-items: center; gap: 6px; }
 .eb-card__city { font-size: 14px; color: var(--ink-soft); }
 .eb-card__spec { font-size: 14px; color: var(--ink); flex: 1 1 auto; }
 .eb-card__contact { display: flex; gap: 8px; padding-top: 4px; border-top: 1px solid var(--line); }
@@ -275,11 +291,11 @@
 /* ---------- Table ---------- */
 .eb-tablewrap { overflow-x: auto; border-radius: 16px; border: 1.5px solid var(--line); }
 .eb-table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 720px; }
-.eb-table th { text-align: left; font-family: "Quicksand", sans-serif; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--ink-soft); padding: 14px 16px; background: #faf8f1; border-bottom: 1.5px solid var(--line); }
+.eb-table th { text-align: left; font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--ink-soft); padding: 14px 16px; background: #faf8f1; border-bottom: 1.5px solid var(--line); }
 .eb-table td { padding: 13px 16px; border-bottom: 1px solid var(--line); vertical-align: middle; }
 .eb-trow:last-child td { border-bottom: none; }
 .eb-trow:hover td { background: #fcfbf5; }
-.eb-tcell-name { display: inline-flex; align-items: center; gap: 9px; font-family: "Quicksand", sans-serif; font-weight: 600; color: var(--ink); }
+.eb-tcell-name { display: inline-flex; align-items: center; gap: 9px; font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; color: var(--ink); }
 .eb-tcontact { display: inline-flex; gap: 6px; }
 .eb-tcontact a { width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid var(--line); display: inline-flex; align-items: center; justify-content: center; color: var(--green); transition: all .15s; }
 .eb-tcontact a:hover { border-color: var(--sage); background: var(--cream); }
@@ -293,7 +309,7 @@
 .eb-provpick__head h2 { font-size: 24px; color: var(--green-d); }
 .eb-provpick__head p { color: var(--ink-soft); margin: 8px auto 0; max-width: 520px; }
 .eb-provgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
-.eb-provbtn { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 18px; border-radius: 14px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; font-family: "Quicksand", sans-serif; font-weight: 600; font-size: 16px; color: var(--ink); text-align: left; transition: all .15s; }
+.eb-provbtn { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 18px; border-radius: 14px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; font-size: 16px; color: var(--ink); text-align: left; transition: all .15s; }
 .eb-provbtn:hover { border-color: var(--green-l); background: #fcfbf5; box-shadow: var(--shadow-sm); }
 .eb-provbtn__count { flex: 0 0 auto; min-width: 30px; text-align: center; background: var(--cream); color: var(--green-d); font-size: 13px; padding: 3px 10px; border-radius: 999px; }
 .eb-provbtn--foreign { border-style: dashed; color: var(--green-d); }
@@ -301,7 +317,7 @@
 /* ---------- "Działa również w" ---------- */
 .eb-otherregs { display: flex; flex-direction: column; gap: 4px; }
 .eb-otherreg { font-size: 15px; color: var(--ink); }
-.eb-otherreg b { font-family: "Quicksand", sans-serif; font-weight: 600; color: var(--green-d); }
+.eb-otherreg b { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; color: var(--green-d); }
 .eb-field--woj select { font-weight: 600; color: var(--green-d); }
 
 /* ---------- Map ---------- */
@@ -318,33 +334,33 @@
 .eb-map__hint { text-align: center; color: var(--ink-soft); font-size: 13px; margin: 12px 0 0; }
 .eb-maptip {
   position: absolute; transform: translate(-50%, -135%); background: var(--green-d); color: #fff;
-  padding: 6px 12px; border-radius: 999px; font-size: 13px; font-family: "Quicksand", sans-serif; font-weight: 600;
+  padding: 6px 12px; border-radius: 999px; font-size: 13px; font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600;
   white-space: nowrap; pointer-events: none; box-shadow: var(--shadow-sm); z-index: 5;
 }
 
 .eb-wojcol { background: #fbf9f1; border-radius: 18px; padding: 20px; }
-.eb-wojcol__title { font-family: "Quicksand", sans-serif; font-size: 18px; color: var(--green-d); margin-bottom: 14px; }
+.eb-wojcol__title { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-size: 18px; color: var(--green-d); margin-bottom: 14px; }
 .eb-wojlist { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 2px; }
 .eb-wojlink {
   width: 100%; display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 11px;
-  background: none; border: none; cursor: pointer; font-family: "Nunito", sans-serif; font-size: 15px; color: var(--ink); text-align: left; transition: background .12s; text-decoration: none;
+  background: none; border: none; cursor: pointer; font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-size: 15px; color: var(--ink); text-align: left; transition: background .12s; text-decoration: none;
 }
 .eb-wojlink:hover { background: #fff; }
 .eb-wojlink__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--green-l); flex: 0 0 auto; }
 .eb-wojlink__globe { color: var(--green); font-size: 13px; }
 .eb-wojlink__name { flex: 1 1 auto; }
-.eb-wojlink__count { font-family: "Quicksand", sans-serif; font-weight: 600; font-size: 12px; color: var(--green-d); background: var(--cream); min-width: 24px; text-align: center; padding: 2px 8px; border-radius: 999px; }
-.eb-wojlink--foreign { border-top: 1px dashed var(--line); border-radius: 0; padding-top: 14px; margin-top: 6px; font-family: "Quicksand", sans-serif; font-weight: 600; color: var(--green-d); }
+.eb-wojlink__count { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; font-size: 12px; color: var(--green-d); background: var(--cream); min-width: 24px; text-align: center; padding: 2px 8px; border-radius: 999px; }
+.eb-wojlink--foreign { border-top: 1px dashed var(--line); border-radius: 0; padding-top: 14px; margin-top: 6px; font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; color: var(--green-d); }
 .eb-wojlink--foreign:hover { background: #fff; border-radius: 11px; }
 
 /* ---------- Woj view ---------- */
-.eb-back { background: none; border: none; cursor: pointer; color: var(--green-d); font-family: "Quicksand", sans-serif; font-weight: 600; font-size: 15px; padding: 0; margin-bottom: 16px; }
+.eb-back { background: none; border: none; cursor: pointer; color: var(--green-d); font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; font-size: 15px; padding: 0; margin-bottom: 16px; }
 .eb-back:hover { color: var(--green); }
 .eb-listtop { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
 .eb-listtop .eb-back { margin-bottom: 0; }
 .eb-listtop__title { font-size: 22px; color: var(--green-d); }
 .eb-wojhead { display: flex; align-items: center; justify-content: space-between; gap: 24px; background: var(--cream); border-radius: 18px; padding: 26px 30px; margin-bottom: 24px; }
-.eb-wojhead__eyebrow { font-family: "Quicksand", sans-serif; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .6px; color: var(--green); }
+.eb-wojhead__eyebrow { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .6px; color: var(--green); }
 .eb-wojhead__title { font-size: 32px; color: var(--green-d); margin: 4px 0 6px; }
 .eb-wojhead__count { color: var(--ink-soft); margin: 0; font-size: 16px; }
 .eb-wojhead__map { width: 160px; flex: 0 0 auto; }
@@ -355,7 +371,7 @@
 .eb-footer { max-width: 1180px; margin: 0 auto; padding: 30px 28px 50px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .eb-footer__logo { height: 44px; width: 44px; border-radius: 50%; }
 .eb-footer__nav { display: flex; gap: 18px; flex-wrap: wrap; }
-.eb-footer__nav a { color: var(--ink-soft); text-decoration: none; font-family: "Quicksand", sans-serif; font-weight: 600; font-size: 14px; }
+.eb-footer__nav a { color: var(--ink-soft); text-decoration: none; font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-weight: 600; font-size: 14px; }
 .eb-footer__nav a:hover { color: var(--green-d); }
 .eb-footer__copy { margin: 0 0 0 auto; color: var(--ink-soft); font-size: 13px; }
 
