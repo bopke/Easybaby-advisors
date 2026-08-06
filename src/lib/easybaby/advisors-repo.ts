@@ -4,6 +4,7 @@ import "server-only";
 
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Advisor, Region } from "./advisors";
+import { STATUSES } from "./advisors";
 
 export type PublicSort = "nazwisko" | "status" | "miasto";
 export type PublicPageParams = { woj: string; q: string; status: string; sort: PublicSort; offset: number; limit: number };
@@ -110,16 +111,24 @@ export async function listPublicAdvisors(p: PublicPageParams): Promise<PublicPag
   const totalRow = await DB.prepare(`SELECT COUNT(*) AS n FROM advisors a WHERE ${whereSql}`).bind(...whereBinds).first<{ n: number }>();
   const total = totalRow?.n ?? 0;
 
-  // Zweryfikowani specjaliści zawsze na górze, niezależnie od wybranego sortowania.
-  const VERIFIED_FIRST = "a.zweryfikowany DESC, ";
+  // Izabela Banach zawsze pierwsza, potem kolejność wg "rangi" statusu
+  // (STATUSES, od najbardziej "oficjalnego"), potem zweryfikowani, na końcu
+  // wybrane sortowanie jako tiebreaker — analogicznie do priorytetu na liście
+  // doradców w clauwi.pl (Izabela Banach, potem poziom certyfikacji).
+  const IZABELA_FIRST = "CASE WHEN a.imie = 'Izabela' AND a.nazwisko = 'Banach' THEN 0 ELSE 1 END, ";
+  const STATUS_TIER =
+    "CASE a.status " +
+    STATUSES.map((s, i) => `WHEN '${s.replace(/'/g, "''")}' THEN ${i}`).join(" ") +
+    ` ELSE ${STATUSES.length} END, `;
+  const PRIORITY = IZABELA_FIRST + STATUS_TIER + "a.zweryfikowany DESC, ";
   let selectExtra = "";
-  let order = VERIFIED_FIRST + "a.nazwisko COLLATE NOCASE, a.imie COLLATE NOCASE, a.id";
+  let order = PRIORITY + "a.nazwisko COLLATE NOCASE, a.imie COLLATE NOCASE, a.id";
   const headBinds: unknown[] = [];
   if (p.sort === "status") {
-    order = VERIFIED_FIRST + "a.status COLLATE NOCASE, a.nazwisko COLLATE NOCASE, a.id";
+    order = PRIORITY + "a.status COLLATE NOCASE, a.nazwisko COLLATE NOCASE, a.id";
   } else if (p.sort === "miasto") {
     selectExtra = ", (SELECT json_extract(rp.value, '$.miasta[0]') FROM json_each(a.regiony) rp WHERE json_extract(rp.value, '$.woj') = ? LIMIT 1) AS primary_city";
-    order = VERIFIED_FIRST + "primary_city COLLATE NOCASE, a.nazwisko COLLATE NOCASE, a.id";
+    order = PRIORITY + "primary_city COLLATE NOCASE, a.nazwisko COLLATE NOCASE, a.id";
     headBinds.push(p.woj); // bind for selectExtra (appears before WHERE binds)
   }
 
