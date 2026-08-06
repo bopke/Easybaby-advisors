@@ -120,7 +120,16 @@ export async function listPublicAdvisors(p: PublicPageParams): Promise<PublicPag
     "CASE a.status " +
     STATUSES.map((s, i) => `WHEN '${s.replace(/'/g, "''")}' THEN ${i}`).join(" ") +
     ` ELSE ${STATUSES.length} END, `;
-  const PRIORITY = IZABELA_FIRST + STATUS_TIER + "a.zweryfikowany DESC, ";
+  // Doradcy clauwi mają w `specjalnosc` swój poziom certyfikacji clauwi.pl —
+  // w obrębie tego statusu sortujemy dodatkowo Certyfikat -> Kurs zaawansowany
+  // -> Kurs podstawowy -> reszta, tak samo jak `poziom` na liście doradców clauwi.pl.
+  const CLAUWI_SPECJALNOSC_TIER =
+    "CASE " +
+    "WHEN a.specjalnosc LIKE 'Certyfikat%' THEN 0 " +
+    "WHEN a.specjalnosc LIKE 'Kurs zaawansowany%' THEN 1 " +
+    "WHEN a.specjalnosc LIKE 'Kurs podstawowy%' THEN 2 " +
+    "ELSE 3 END, ";
+  const PRIORITY = IZABELA_FIRST + STATUS_TIER + CLAUWI_SPECJALNOSC_TIER + "a.zweryfikowany DESC, ";
   let selectExtra = "";
   let order = PRIORITY + "a.nazwisko COLLATE NOCASE, a.imie COLLATE NOCASE, a.id";
   const headBinds: unknown[] = [];
