@@ -102,9 +102,9 @@ export async function listPublicAdvisors(p: PublicPageParams): Promise<PublicPag
   if (p.q.trim()) {
     const like = "%" + escapeLike(p.q.trim()) + "%";
     where.push(
-      "((a.imie || ' ' || a.nazwisko) LIKE ? ESCAPE '\\' OR EXISTS (SELECT 1 FROM json_each(a.regiony) rq, json_each(json_extract(rq.value, '$.miasta')) c WHERE c.value LIKE ? ESCAPE '\\'))"
+      "((a.imie || ' ' || a.nazwisko) LIKE ? ESCAPE '\\' OR EXISTS (SELECT 1 FROM json_each(a.regiony) rq, json_each(json_extract(rq.value, '$.miasta')) c WHERE c.value LIKE ? ESCAPE '\\') OR a.oferta LIKE ? ESCAPE '\\')"
     );
-    whereBinds.push(like, like);
+    whereBinds.push(like, like, like);
   }
   const whereSql = where.join(" AND ");
 

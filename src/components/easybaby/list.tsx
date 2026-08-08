@@ -194,7 +194,7 @@ function Toolbar({
       </div>
       <div className="eb-search">
         <span className="eb-search__ico" aria-hidden="true">⌕</span>
-        <input className="eb-search__input" type="text" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Szukaj po nazwisku lub miejscowości…" />
+        <input className="eb-search__input" type="text" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Szukaj po nazwisku, miejscowości lub ofercie…" />
         {q && <button className="eb-search__clear" onClick={() => setQ("")} aria-label="Wyczyść">×</button>}
       </div>
       <div className="eb-field">
@@ -253,6 +253,7 @@ export function ListView({
     const t = setTimeout(() => setDq(q), 300);
     return () => clearTimeout(t);
   }, [q]);
+
 
   const fetchPage = useCallback(async (reset: boolean) => {
     if (!reset && (loadingRef.current || !hasMoreRef.current)) return;
