@@ -5,7 +5,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { Advisor } from "@/lib/easybaby/advisors";
-import { EBUtil, photoUrl } from "@/lib/easybaby/advisors";
+import { DIRECTORY_PATH, EBUtil, photoUrl } from "@/lib/easybaby/advisors";
 
 // ---- Avatar (zdjęcie lub inicjały) ----
 export function Avatar({ a, size = 44 }: { a: Advisor; size?: number }) {
@@ -62,7 +62,7 @@ export function Header() {
               <li key={l.label}><a href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a></li>
             ))}
             <li>
-              <Link href="/" onClick={() => setOpen(false)}>Specjaliści</Link>
+              <Link href={DIRECTORY_PATH} onClick={() => setOpen(false)}>Specjaliści</Link>
             </li>
           </ul>
           <div className="ebsite-actions">

@@ -53,6 +53,13 @@ export const WOJ_META: WojMeta[] = [
   { slug: "zagranica", name: "Specjaliści za granicą Polski" },
 ];
 
+// Ścieżki publicznej listy specjalistów. Lista mieszka pod /specjalisci,
+// żeby strona główna (/) była wolna pod przyszłą stronę główną easybaby.
+export const DIRECTORY_PATH = "/specjalisci";
+export function wojPath(slug: string): string {
+  return DIRECTORY_PATH + "/" + slug;
+}
+
 // Wpis allowlisty (współdzielony typ, bez efektów ubocznych — używany też po stronie serwera).
 export type AllowEntry = { email: string; added: string };
 

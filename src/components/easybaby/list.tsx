@@ -6,7 +6,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { EBUtil, STATUSES, WOJ_META } from "@/lib/easybaby/advisors";
+import { DIRECTORY_PATH, EBUtil, STATUSES, WOJ_META, wojPath } from "@/lib/easybaby/advisors";
 import type { Advisor } from "@/lib/easybaby/advisors";
 import { getAdvisorsPageAction } from "@/app/page-actions";
 import { Avatar, StatusBadge } from "./ui";
@@ -307,10 +307,10 @@ export function ListView({
   return (
     <div className="eb-panel">
       <div className="eb-listtop">
-        <button className="eb-back" onClick={() => router.push("/")}>← Wróć do mapy</button>
+        <button className="eb-back" onClick={() => router.push(DIRECTORY_PATH)}>← Wróć do mapy</button>
         <h2 className="eb-listtop__title">Specjaliści — {EBUtil.wojName(woj)}</h2>
       </div>
-      <Toolbar woj={woj} onWojChange={(slug) => router.push("/" + slug)} q={q} setQ={setQ} status={status} setStatus={setStatus} sort={sort} setSort={setSort} total={total} />
+      <Toolbar woj={woj} onWojChange={(slug) => router.push(wojPath(slug))} q={q} setQ={setQ} status={status} setStatus={setStatus} sort={sort} setSort={setSort} total={total} />
 
       {empty ? (
         <div className="eb-empty">

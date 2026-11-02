@@ -5,7 +5,7 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { POLAND } from "@/lib/easybaby/poland-map";
-import { EBUtil } from "@/lib/easybaby/advisors";
+import { EBUtil, wojPath } from "@/lib/easybaby/advisors";
 
 type MapStyle = "outline" | "fill";
 
@@ -76,7 +76,7 @@ export function MapView({
   showCounts: boolean;
 }) {
   const router = useRouter();
-  const go = (slug: string) => router.push("/" + slug);
+  const go = (slug: string) => router.push(wojPath(slug));
   const coll = new Intl.Collator("pl");
   const sorted = POLAND.regions.slice().sort((a, b) => coll.compare(a.name, b.name));
   return (
@@ -91,7 +91,7 @@ export function MapView({
           <ul className="eb-wojlist">
             {sorted.map((r) => (
               <li key={r.slug}>
-                <a className="eb-wojlink" href={"/" + r.slug} onClick={(e) => { e.preventDefault(); go(r.slug); }}>
+                <a className="eb-wojlink" href={wojPath(r.slug)} onClick={(e) => { e.preventDefault(); go(r.slug); }}>
                   <span className="eb-wojlink__dot" aria-hidden="true"></span>
                   <span className="eb-wojlink__name">{r.name}</span>
                   {showCounts && <span className="eb-wojlink__count">{counts[r.slug] || 0}</span>}
@@ -99,7 +99,7 @@ export function MapView({
               </li>
             ))}
           </ul>
-          <a className="eb-wojlink eb-wojlink--foreign" href="/zagranica" onClick={(e) => { e.preventDefault(); go("zagranica"); }}>
+          <a className="eb-wojlink eb-wojlink--foreign" href={wojPath("zagranica")} onClick={(e) => { e.preventDefault(); go("zagranica"); }}>
             <span className="eb-wojlink__globe" aria-hidden="true">◉</span>
             <span className="eb-wojlink__name">Specjaliści za granicą Polski</span>
             {showCounts && <span className="eb-wojlink__count">{counts["zagranica"] || 0}</span>}

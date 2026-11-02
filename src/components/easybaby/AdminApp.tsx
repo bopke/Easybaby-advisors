@@ -6,7 +6,7 @@
 // Allowlista: D1 przez akcje serwerowe.
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { EBUtil, photoUrl, STATUSES, WOJ_META } from "@/lib/easybaby/advisors";
+import { DIRECTORY_PATH, EBUtil, photoUrl, STATUSES, WOJ_META } from "@/lib/easybaby/advisors";
 import type { Advisor, AllowEntry, Region } from "@/lib/easybaby/advisors";
 import {
   addAllowAction, createAdvisorAction, deleteAdvisorAction, getAdvisorsAdminAction,
@@ -572,7 +572,7 @@ export function AdminApp({ user }: { user: AdminUser }) {
           {menu && (
             <div className="adm-usermenu" onClick={(e) => e.stopPropagation()}>
               <div className="adm-usermenu__email">{user.email}</div>
-              <a className="adm-usermenu__link" href="/">↗ Zobacz publiczną listę</a>
+              <a className="adm-usermenu__link" href={DIRECTORY_PATH}>↗ Zobacz publiczną listę</a>
               <form action={signOutAction}>
                 <button type="submit" className="adm-usermenu__logout">Wyloguj się</button>
               </form>
