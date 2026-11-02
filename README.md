@@ -6,6 +6,17 @@ specialists active in their area.
 
 Live at **[specjalisci.easybaby.pl](https://specjalisci.easybaby.pl)**.
 
+## Branches & environments
+
+| Branch | Environment | URL                                                  | Worker                 | D1                        | R2                            | Deploy                   |
+|--------|-------------|------------------------------------------------------|------------------------|---------------------------|-------------------------------|--------------------------|
+| `main` | production  | [specjalisci.easybaby.pl](https://specjalisci.easybaby.pl) | `specjalisci-easybaby` | `specjalisci-easybaby-db` | `specjalisci-easybaby-photos` | `npm run deploy`         |
+| `dev`  | staging     | [staging.easybaby.pl](https://staging.easybaby.pl)   | `easybaby-staging`     | `easybaby-staging-db`     | `easybaby-staging-photos`     | `npm run deploy:staging` |
+
+Work lands on `dev`, gets verified on staging, then is merged into `main` and deployed to production. The staging stack
+is fully separate (own Worker, database, bucket and secrets — set them with `npx wrangler secret put <NAME> --env staging`).
+Staging migrations: `npm run db:migrate:staging`.
+
 ---
 
 ## Tech stack

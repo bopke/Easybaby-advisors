@@ -42,5 +42,33 @@
       "binding": "PHOTOS",
       "bucket_name": "specjalisci-easybaby-photos"
     }
-  ]
+  ],
+  /**
+   * Staging stack (deployed from the `dev` branch) — fully separate Worker,
+   * D1 and R2. Deploy with `npm run deploy:staging`.
+   * Routes and bindings are NOT inherited by environments, so they are repeated here.
+   * Secrets are per-environment too: `npx wrangler secret put AUTH_SECRET --env staging`.
+   */
+  "env": {
+    "staging": {
+      "name": "easybaby-staging",
+      "routes": [
+        { "pattern": "staging.easybaby.pl", "custom_domain": true }
+      ],
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "easybaby-staging-db",
+          "database_id": "d9593010-4387-4a8c-85b1-c28bc2928921",
+          "migrations_dir": "migrations"
+        }
+      ],
+      "r2_buckets": [
+        {
+          "binding": "PHOTOS",
+          "bucket_name": "easybaby-staging-photos"
+        }
+      ]
+    }
+  }
 }
