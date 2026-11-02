@@ -48,7 +48,7 @@
 .adm-gpicker__cancel:hover { background: #f3f6ee; }
 
 /* ---------- Shell ---------- */
-.adm-top { background: #fff; border-bottom: 1px solid var(--line); padding: 12px 26px; display: flex; align-items: center; gap: 24px; position: sticky; top: 0; z-index: 30; }
+.adm-top { background: #fff; border-bottom: 1px solid var(--line); padding: 12px 26px; display: flex; align-items: center; gap: 24px; position: sticky; top: var(--staging-bar, 0px); z-index: 30; }
 .adm-top__brand { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
 .adm-top__brand img { width: 46px; height: 46px; border-radius: 50%; }
 .adm-top__name { font-family: "Quicksand", sans-serif; font-weight: 600; font-size: 18px; color: var(--ink); }

@@ -78,7 +78,7 @@
 }
 
 /* ---------- Header ---------- */
-.eb-header { background: #fff; box-shadow: 0 1px 0 var(--line); position: sticky; top: 0; z-index: 40; }
+.eb-header { background: #fff; box-shadow: 0 1px 0 var(--line); position: sticky; top: var(--staging-bar, 0px); z-index: 40; }
 .eb-header__inner {
   max-width: 1180px; margin: 0 auto; padding: 14px 28px;
   display: flex; align-items: center; gap: 22px;
@@ -121,7 +121,7 @@
 .eb-burger:hover { background: var(--cream); }
 
 .eb-mobilemenu {
-  position: fixed; inset: 0; z-index: 60; background: #fff;
+  position: fixed; inset: var(--staging-bar, 0px) 0 0 0; z-index: 60; background: #fff;
   opacity: 0; visibility: hidden; transform: translateY(-8px);
   transition: opacity .2s ease, transform .2s ease, visibility .2s;
   display: flex; flex-direction: column;
